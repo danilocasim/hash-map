@@ -22,23 +22,25 @@ class HashMap {
 
   set(key, value) {
     const index = this.hash(key);
+
     if (this.buckets[index].heads() !== null) {
       if (this.buckets[index].containsKey(key)) {
         const listIndex = this.buckets[index].findKey(key);
         this.buckets[index].removeAt(listIndex);
         this.buckets[index].insertAt({ key, value }, listIndex);
-        return;
       }
     }
     this.buckets[index].append({ key, value });
 
+    // expand capacity
     if (this.capacity * this.loadFactor < this.length()) {
       this.capacity *= 2;
       const tempHash = new HashMap();
 
-      this.keys().forEach((key, index) => {
-        tempHash.set(key, this.buckets.values()[index]);
-      });
+      tempHash.capacity = this.capacity;
+
+      console.log(tempHash);
+      tempHash.set("clone", "example");
 
       console.log(tempHash);
       this.buckets = [...tempHash.buckets];
