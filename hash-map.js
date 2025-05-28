@@ -47,6 +47,15 @@ class HashMap {
     }
     return null;
   }
+
+  has(key, currentIndex = 0, buckets = this.buckets) {
+    if (currentIndex === buckets.length) return false;
+    const bucket = buckets[currentIndex];
+    if (bucket.heads() !== null) {
+      if (bucket.containsKey(key)) return true;
+    }
+    return this.has(key, currentIndex + 1, this.buckets);
+  }
 }
 
 const hash = new HashMap();
@@ -58,5 +67,8 @@ hash.set("danilo", "casim");
 hash.set("ke32wy", "tite");
 hash.set("kew23y", "pepe");
 hash.set("e2g43c23", "lol");
-
-console.log(hash.get("lol"));
+hash.set("danieelo2", "cereasim");
+hash.set("dko", "ddokdok");
+hash.set("f3r4d", "ddokdok3f3f");
+hash.set("fe", "3343r");
+console.log(hash.has("fe"));
