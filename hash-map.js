@@ -61,13 +61,13 @@ class HashMap {
     return null;
   }
 
-  has(key, currentIndex = 0, buckets = this.buckets) {
-    if (currentIndex === buckets.length) return false;
-    const bucket = buckets[currentIndex];
+  has(key, buckets = this.buckets) {
+    const index = this.hash(key);
+    const bucket = buckets[index];
     if (bucket.heads() !== null) {
       if (bucket.containsKey(key)) return true;
     }
-    return this.has(key, currentIndex + 1, this.buckets);
+    return false;
   }
 
   remove(key) {
@@ -173,7 +173,6 @@ test.set("giraffe", "yellow");
 test.set("honey", "gold");
 test.set("game", "ml");
 console.log(test.length());
-
 console.log(test.entries());
 console.log(test.has("moon"));
 console.log(test);
