@@ -1,10 +1,10 @@
 import { LinkedList } from "./linked-list.js";
 
 class HashMap {
-  capacity = 16;
   loadFactor = 0.75;
 
-  constructor() {
+  constructor(capacity = 16) {
+    this.capacity = capacity;
     this.buckets = [];
     for (let i = 0; i < this.capacity; i++) this.buckets.push(new LinkedList());
   }
@@ -22,27 +22,26 @@ class HashMap {
 
   set(key, value) {
     const index = this.hash(key);
-
-    if (this.buckets[index].heads() !== null) {
-      if (this.buckets[index].containsKey(key)) {
-        const listIndex = this.buckets[index].findKey(key);
-        this.buckets[index].removeAt(listIndex);
-        this.buckets[index].insertAt({ key, value }, listIndex);
+    const bucket = this.buckets[index];
+    if (bucket.heads() !== null) {
+      if (bucket.containsKey(key)) {
+        const listIndex = bucket.findKey(key);
+        bucket.removeAt(listIndex);
+        bucket.insertAt({ key, value }, listIndex);
+        return;
       }
     }
-    this.buckets[index].append({ key, value });
+    bucket.append({ key, value });
 
     // expand capacity
     if (this.capacity * this.loadFactor < this.length()) {
       this.capacity *= 2;
-      const tempHash = new HashMap();
+      const tempHash = new HashMap(this.capacity);
 
-      tempHash.capacity = this.capacity;
+      this.keys().forEach((key, index) => {
+        tempHash.set(key, this.values()[index]);
+      });
 
-      console.log(tempHash);
-      tempHash.set("clone", "example");
-
-      console.log(tempHash);
       this.buckets = [...tempHash.buckets];
     }
     return this.buckets;
@@ -123,23 +122,57 @@ class HashMap {
 
 const test = new HashMap(); // or HashMap() if using a factory
 
-test.set("apple", "red");
-test.set("banana", "yellow");
-test.set("carrot", "orange");
-test.set("dog", "brown");
-test.set("frog", "green");
-test.set("grape", "purple");
-test.set("hat", "black");
-test.set("fro3g", "green");
-test.set("gradpe", "purple");
-test.set("gradpe", "purple");
-test.set("graddwpe", "purple");
-test.set("gradwdpe", "purple");
+test.set("moon", "silver");
+test.set("notebook", "blue");
+test.set("orange", "orange");
+test.set("pencil", "yellow");
+test.set("quilt", "multicolor");
+test.set("rose", "red");
+test.set("sun", "yellow");
+test.set("tree", "green");
+test.set("umbrella", "purple");
+test.set("violin", "brown");
+test.set("water", "blue");
+test.set("xylophone", "rainbow");
+test.set("yarn", "pink");
+test.set("zebra", "black and white");
+test.set("anchor", "navy");
+test.set("ball", "red");
+test.set("cloud", "white");
+test.set("drum", "red");
+test.set("eagle", "brown");
+test.set("feather", "white");
+test.set("gem", "blue");
+test.set("hat", "gray");
+test.set("igloo", "white");
+test.set("jungle", "green");
+test.set("key", "gold");
+test.set("lamp", "yellow");
+test.set("mirror", "silver");
+test.set("nest", "brown");
+test.set("ocean", "blue");
+test.set("palm", "green");
+test.set("quartz", "pink");
+test.set("robot", "gray");
+test.set("star", "white");
+test.set("tiger", "orange");
+test.set("unicorn", "white");
+test.set("vase", "blue");
+test.set("window", "clear");
+test.set("x-ray", "black and white");
+test.set("yak", "brown");
+test.set("zeppelin", "gray");
+test.set("avocado", "green");
+test.set("beet", "red");
+test.set("cucumber", "green");
+test.set("daisy", "white");
+test.set("ember", "red");
+test.set("flamingo", "pink");
+test.set("giraffe", "yellow");
+test.set("honey", "gold");
+test.set("game", "ml");
 
-test.set("haw3t", "black");
-test.set("hawd3t", "black");
-test.set("m3oon", "q23w");
-test.set("elephant", "t0ete");
-console.log(test.get("elephant"));
 console.log(test.length());
+console.log(test.entries());
+
 console.log(test);
