@@ -94,6 +94,26 @@ export class LinkedList {
     );
   }
 
+  arrKeys(current = this.head, arr = []) {
+    if (current === null) return arr;
+
+    arr.push(current.value.key);
+    return this.arrKeys(current.nextNode, arr);
+  }
+
+  arrValues(current = this.head, arr = []) {
+    if (current === null) return arr;
+
+    arr.push(current.value.value);
+    return this.arrValues(current.nextNode, arr);
+  }
+
+  arrKeysValues(current = this.head, arr = []) {
+    if (current === null) return arr;
+    arr.push({ [current.value.key]: current.value.value });
+    return this.arrKeysValues(current.nextNode, arr);
+  }
+
   insertAt(
     value,
     index,
