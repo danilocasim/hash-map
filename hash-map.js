@@ -1,13 +1,62 @@
+import { LinkedList } from "./linked-list.js";
+
 class HashMap {
   capacity = 16;
   loadFactor = 0.8;
 
   constructor() {
-    this.bucket = [];
-    for (let i = 0; i < this.capacity; i++) {
-      this.bucket.push("tite");
+    this.buckets = [];
+    for (let i = 0; i < this.capacity; i++) this.buckets.push(new LinkedList());
+  }
+
+  hash(key) {
+    let hashCode = 0;
+
+    const primeNumber = 31;
+    for (let i = 0; i < key.length; i++) {
+      hashCode = (primeNumber * hashCode + key.charCodeAt(i)) % this.capacity;
     }
+
+    return hashCode;
+  }
+
+  set(key, value) {
+    const index = this.hash(key);
+    if (this.buckets[index].heads() !== null) {
+      if (this.buckets[index].containsKey(key)) {
+        const listIndex = this.buckets[index].findKey(key);
+        this.buckets[index].removeAt(listIndex);
+        this.buckets[index].insertAt({ key, value }, listIndex);
+        return;
+      }
+    }
+    this.buckets[index].append({ key, value });
+    return this.buckets;
+  }
+
+  get(key) {
+    const index = this.hash(key);
+    const bucket = this.buckets[index];
+
+    if (bucket.heads() !== null) {
+      if (bucket.containsKey(key)) {
+        const listIndex = bucket.findKey(key);
+        const list = bucket.at(listIndex);
+        return list.value.value;
+      }
+    }
+    return null;
   }
 }
 
-console.log(new HashMap());
+const hash = new HashMap();
+hash.set("kewy", "value");
+hash.set("kewy", "tite");
+hash.set("kewy", "eaeea");
+hash.set("TITE", 23);
+hash.set("danilo", "casim");
+hash.set("ke32wy", "tite");
+hash.set("kew23y", "pepe");
+hash.set("e2g43c23", "lol");
+
+console.log(hash.get("lol"));

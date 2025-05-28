@@ -44,15 +44,11 @@ export class LinkedList {
   }
 
   at(index, currentIndex = 0, currentNode = this.head) {
-    if (index === currentIndex) return currentNode;
     if (currentNode.nextNode === null && index > currentIndex)
       return "out of range";
+    if (index === currentIndex) return currentNode;
 
-    return this.at(
-      index,
-      (currentIndex = currentIndex + 1),
-      currentNode.nextNode
-    );
+    return this.at(index, currentIndex + 1, currentNode.nextNode);
   }
 
   pop(prev = null, current = this.head) {
@@ -68,6 +64,12 @@ export class LinkedList {
     return this.contains(value, current.nextNode);
   }
 
+  containsKey(value, current = this.head) {
+    if (current.value.key === value) return true;
+    if (current.nextNode == null) return false;
+    return this.containsKey(value, current.nextNode);
+  }
+
   find(value, currentIndex = 0, currentNode = this.head) {
     if (currentNode.value === value) return currentIndex;
     if (currentNode.nextNode === null) return "cant find the value: " + value;
@@ -77,6 +79,13 @@ export class LinkedList {
       currentNode.nextNode
     );
   }
+
+  findKey(value, currentIndex = 0, currentNode = this.head) {
+    if (currentNode.value.key === value) return currentIndex;
+    if (currentNode.nextNode === null) return "cant find the value: " + value;
+    return this.findKey(value, currentIndex + 1, currentNode.nextNode);
+  }
+
   toString(current = this.head, stringifiedList = "") {
     if (current === null) return stringifiedList + null;
     return this.toString(
