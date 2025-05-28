@@ -98,6 +98,7 @@ class HashMap {
   }
 
   clear() {
+    this.capacity = 16;
     return (this.buckets = [...new HashMap().buckets]);
   }
 
@@ -171,8 +172,8 @@ test.set("flamingo", "pink");
 test.set("giraffe", "yellow");
 test.set("honey", "gold");
 test.set("game", "ml");
-
 console.log(test.length());
-console.log(test.entries());
 
+console.log(test.entries());
+console.log(test.has("moon"));
 console.log(test);
